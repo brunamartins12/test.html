@@ -3,44 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>site de musica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .memory-game {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .card {
+            width: calc(33.33% - 10px);
+            margin: 5px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .card img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+    </style>
+    <title>Jogo da Memória</title>
 </head>
 <body>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-        margin: 0;
-        padding: 0;
-    }
-    <header>
-        <h1>Bem vindo ao Meu Site de Musica</h1>
-        <nav>
-            <ul>
-                <li><a href=#>inicio</a></li>
-                <li><a href=#>Artista</a></li>
-                <li><a href=#>Albuns</a></li>
-                <li><a href=#>Musicas</a></li>
-                <li><a href=#>Contato</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="memory-game">
+        <div class="card" data-card="1"><img src="imagem1.jpg" alt="Carta 1"></div>
+        <div class="card" data-card="2"><img src="imagem2.jpg" alt="Carta 2"></div>
+        <div class="card" data-card="1"><img src="imagem1.jpg" alt="Carta 1"></div>
+        <div class="card" data-card="2"><img src="imagem2.jpg" alt="Carta 2"></div>
+        <!-- Adicione mais cartas conforme necessário -->
+    </div>
+    <script>
+        let cards = document.querySelectorAll('.card');
+        let flippedCards = [];
+        let matchedCards = 0;
 
-    <main>
-        <section id="destaques">
-            <h2>Destaques</h2>
-        </section>
-        
-        <section id="Albuns">
-            <h2>Albuns</h2>
-        </section>
-    </main>
+        cards.forEach(card => {
+            card.addEventListener('click', flipCard);
+        });
 
-    <footer>
-        <p>&copy; 2023 Meu site de Musica. Todos os direitos reservados.</p>
-    </footer>
-    <audio controls>
-        <source src="caminho-para-sua-musica.mp3" type="audio/mpeg">
-        
-    </audio>
+        function flipCard() {
+            if (flippedCards.length < 2) {
+                this.classList.add('flipped');
+                flippedCards.push(this);
+
+                if (flippedCards.length === 2) {
+                    setTimeout(checkMatch, 1000);
+                }
+            }
+        }
+
+        function checkMatch() {
+            if (flippedCards[0].dataset.card === flippedCards[1].dataset.card) {
+                flippedCards[0].classList.add('matched');
+                flippedCards[1].classList.add('matched');
+                matchedCards += 2;
+                if (matchedCards === cards.length) {
+                    alert('Parabéns! Você venceu o jogo!');
+                }
+            } else {
+                flippedCards[0].classList.remove('flipped');
+                flippedCards[1].classList.remove('flipped');
+            }
+            flippedCards = [];
+        }
+    </script>
 </body>
 </html>
